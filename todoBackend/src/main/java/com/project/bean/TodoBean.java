@@ -1,7 +1,7 @@
-package com.todo.bean;
+package com.project.bean;
 
-public class ToDoBean {
-	
+public class TodoBean {
+
 	private int id;
 	private String task;
 	private String status;
@@ -23,4 +23,6 @@ public class ToDoBean {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	
 }
