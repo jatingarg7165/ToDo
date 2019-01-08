@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl} from '@angular/forms';
+import { TodoServiceService } from './todo-service.service';
 // import { create } from 'domain';
 @Component({
   selector: 'app-root',
@@ -11,20 +12,20 @@ export class AppComponent {
   toDos;
   create=false;
   createTask;
-  constructor(){}
+  constructor(private todo:TodoServiceService){}
 
   ngOnInit()
   {
-    this.toDos=[
-      {task:'Learn Angular',
-      id:1,
-      status:'DONE'},
-      {task:'Learn Node',
-      id:2,
-      status:'DONE'},
-      {task: 'Learn Spring',
-        id:3,
-        status:'NOT DONE'}];
+    this.todo.fetchTask().subscribe(res=>{
+      if(res.responseCode==1000)
+      {
+        this.toDos=res.responseData;
+        console.log("data",this.toDos);
+        console.log("resp",res);
+      }
+      else
+        console.log("error");
+    })
   }
 
   createToDo()

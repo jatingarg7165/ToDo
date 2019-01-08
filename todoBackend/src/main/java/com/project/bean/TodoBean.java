@@ -5,6 +5,12 @@ public class TodoBean {
 	private int id;
 	private String task;
 	private String status;
+	 public TodoBean(int id, String task, String status) {
+	        this.id = id;
+	        this.task = task;
+	        this.status = status;
+	    }
+	
 	public int getId() {
 		return id;
 	}
@@ -23,6 +29,8 @@ public class TodoBean {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public TodoBean() {
 	
+	}
 	
 }
