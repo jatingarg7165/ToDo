@@ -2,6 +2,7 @@ package com.project.todoBackend;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ public class TodoBackendApplication {
 
 	@Autowired
 	TodoService todoService;
-		
+	@CrossOrigin(origins = "*", allowedHeaders="*")
 	@GetMapping("/fetchTask")
 	public ResponseBean fetchTask()
 	{
@@ -31,6 +32,7 @@ public class TodoBackendApplication {
 	}
 	
 	@PostMapping("/createTask")
+	@CrossOrigin(origins = "*", allowedHeaders="*")
 	public ResponseBean createTask(@RequestBody TodoBean toDoBean)
 	{
 		ResponseBean resBean=new ResponseBean();
@@ -46,6 +48,7 @@ public class TodoBackendApplication {
 	}
 	
 	@PostMapping("/deleteTask")
+	@CrossOrigin(origins = "*", allowedHeaders="*")
 	public ResponseBean deleteTask(@RequestBody TodoBean toDoBean)
 	{
 		ResponseBean resBean=new ResponseBean();
@@ -59,6 +62,7 @@ public class TodoBackendApplication {
 	}
 	
 	@PostMapping("/updateTask")
+	@CrossOrigin(origins = "*", allowedHeaders="*")
 	public ResponseBean updateTask(@RequestBody TodoBean toDoBean)
 	{
 		ResponseBean resBean=new ResponseBean();

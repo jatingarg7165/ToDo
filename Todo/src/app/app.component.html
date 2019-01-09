@@ -5,45 +5,41 @@
   </h1>
   <!-- <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="> -->
 </div>
+<div class="row " *ngIf="message">
+  <div class="col-md-12 text-center" [innerHTML]="resmessage">
+  </div>
+</div>
 <h3>Your ToDos:</h3>
-<ul>
-  <li *ngFor="let todo of toDos">
-{{todo?.task}}  {{todo?.status}}
-  </li>
-</ul>
+<table>
+  <tr>
+    <th>Task</th>
+    <th>Status</th>
+    <th *ngIf="remove">Remove</th>
+    <th *ngIf="done">DONE</th>
+  </tr>
+  <tr *ngFor="let todo of toDos">
+    <td>{{todo?.task}}</td>
+    <td>{{todo?.status}}</td>
+    <th *ngIf="remove"><button (click)="removeTask(todo)">x</button></th>
+    <th *ngIf="done && todo.status=='Not Done'"><button (click)="doneTask(todo)">DONE</button></th>
+  </tr>
+</table>
+<!-- <button *ngIf="saveToDo" (click)="saveRemainToDo()">SAVE</button> -->
 <h2>Here are some things you can do: </h2>
 <ul>
   <li>
-    <h2><button><a target="_blank" rel="noopener" (click)="createToDo()">Create A To Do</a></button></h2>
+    <h2><button><a  (click)="createToDo()">Create A To Do</a></button></h2>
   </li>
   <li>
-    <h2><button><a target="_blank" rel="noopener" (click)="removeToDo()">Remove A To DO</a></button></h2>
+    <h2><button><a  (click)="removeToDo()">Remove A To DO</a></button></h2>
   </li>
   <li>
-    <h2><button><a target="_blank" rel="noopener">Mark As Done</a></button></h2>
+    <h2><button><a (click)="doneToDo()">Mark As Done</a></button></h2>
   </li>
 </ul>
 
 <div *ngIf="create">
-  <!-- <form > -->
     Write your task:
     <input [formControl]="createTask">
     <button (click)="saveTask()">Save </button>
-  <!-- </form> -->
 </div>
-
-<div *ngIf="remove">
-    <!-- <form > -->
-      Remove your tasks:
-      <ul>
-          <li *ngFor="let todo of remaintodos">
-        {{todo}}
-          
-          <button (click)="removeTask(todo)">x</button>
-        </li>
-        </ul>
-  
-  <button (click)="saveRemainToDo()">Save </button>
-    <!-- </form> -->
-  </div>
-<router-outlet></router-outlet>

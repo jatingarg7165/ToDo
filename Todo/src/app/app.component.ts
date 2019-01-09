@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl} from '@angular/forms';
 import { TodoServiceService } from './todo-service.service';
-// import { create } from 'domain';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +12,8 @@ export class AppComponent {
   toDos;
   create=false;
   createTask;
+  message=false;
+  resmessage='';
   constructor(private todo:TodoServiceService){}
 
   ngOnInit()
@@ -32,14 +34,35 @@ export class AppComponent {
   {
     this.create=true;
     this.createTask=new FormControl('');
+    this.remove=false;
+    this.message=false;
+    this.resmessage="";
+    this.done=false;
   }
 
   saveTask()
   {
+    this.message=false;
+    this.resmessage="";
     console.log("create",this.createTask);
     if(this.createTask.value!="")
     {
-    this.toDos.push(this.createTask.value);
+      const todo={id:'',
+      task:this.createTask.value,
+      status:"Not Done"}
+      this.todo.createTask(todo).subscribe(res=>{
+        if(res.responseCode==1000)
+        {
+          this.message=true;
+          this.resmessage="CREATED SUCCESSFULLY!";
+          this.toDos.push(todo);
+        }
+        else
+        {
+          this.message=true;
+          this.resmessage="SOME INTERNAL PROBLEM!";
+        }
+      })
     this.create=false;
     }
     console.log("todo",this.toDos)
@@ -47,24 +70,58 @@ export class AppComponent {
 remove=false;
   removeToDo()
   {
+    this.message=false;
+    this.resmessage="";
     this.remove=true;
-    this.remaintodos=this.toDos;
+    this.create=false;
+    this.done=false;
+
   }
-  remaintodos;
   removeTask(todo)
   {
-    
-    this.remaintodos=this.arrayRemove(this.toDos,todo);
+    const del={id:todo.id}
+    this.todo.deleteTask(del).subscribe(res=>{
+      if(res.responseCode==1000)
+      {
+        const index=this.toDos.findIndex(a=>a.id==todo.id)
+        this.toDos.splice(index,1);
+        // this.message=true;
+        // this.resmessage="CREATED SUCCESSFULLY!";
+        // this.toDos.push(todo);
+      }
+      else
+      {
+        this.message=true;
+        this.resmessage="SOME INTERNAL PROBLEM!";
+      }
+    })
   }
-  arrayRemove(arr, value) {
-    return arr.filter(function(ele){
-        return ele != value;
-    });
-  }
-  saveRemainToDo()
+done=false;
+doneToDo()
+{
+  this.done=true;
+  this.message=false;
+  this.resmessage="";
+  this.remove=false;
+  this.create=false;
+
+}
+  doneTask(todo)
   {
-    this.toDos=[];
-    this.toDos=this.remaintodos;
-    this.remove=false;
+    const update={id:todo.id,status:"DONE"}
+    this.todo.updateTask(update).subscribe(res=>{
+      if(res.responseCode==1000)
+      {
+        this.toDos.filter(a=>{
+          if(a.id==todo.id)
+            {a.status="DONE";}
+        });
+      }
+      else
+      {
+        this.message=true;
+        this.resmessage="SOME INTERNAL PROBLEM!";
+      }
+    })
   }
 }

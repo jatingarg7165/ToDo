@@ -11,8 +11,16 @@ export class TodoServiceService {
   constructor(private http:HttpClient) { }
 
   fetchTask():Observable<any>{
-
     return this.http.get(this.domain+"/fetchTask");
+  }
+  createTask(data):Observable<any>{
+    return this.http.post(this.domain+"/createTask",data);
+  }
+  updateTask(data):Observable<any>{
+    return this.http.post(this.domain+"/updateTask",data);
+  }
+  deleteTask(data):Observable<any>{
+    return this.http.post(this.domain+"/deleteTask",data);
   }
 }
 
